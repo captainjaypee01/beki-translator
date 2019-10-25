@@ -21,7 +21,7 @@
                         <a class="nav-link active" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-expanded="true"><i class="fas fa-user"></i> @lang('labels.backend.access.users.tabs.titles.overview')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#translations" role="tab" aria-controls="overview" aria-expanded="true"><i class="fas fa-user"></i>Translations</a>
+                        <a class="nav-link" id="tab-translations" data-toggle="tab" href="#translations" role="tab" aria-controls="overview" aria-expanded="true"><i class="fas fa-user"></i>Translations</a>
                     </li>
                 </ul>
 
@@ -52,3 +52,22 @@
     </div><!--card-footer-->
 </div><!--card-->
 @endsection
+
+
+@push('after-scripts')
+<script>
+// Javascript to enable link to tab
+        var url = document.location.toString();
+        console.log(url);
+        if (url.match('#') && url.split('#')[1].length>0) {
+             $('#tab-' + url.split('#')[1]).tab('show');
+        } else {
+            
+            $("#tab-overview").tab('show');  
+        }
+
+        // Change hash for page-reload then scroll to top
+        window.location.hash = '';
+        window.scrollTo(0, 0);
+</script>
+@endpush

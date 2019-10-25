@@ -22,6 +22,17 @@
                             </div>
                         </div>
                     </div> 
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <select name="language" id="language" class="form-control">
+                                    <option selected readonly>Select language</option>
+                                    <option value="english">English</option>
+                                    <option value="tagalog">Tagalog</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
             
                 </div>
             </div>

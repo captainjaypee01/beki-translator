@@ -15,6 +15,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>  
+                        <th>Language</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
@@ -23,6 +24,7 @@
                     @foreach($wordTranslations as $translation)
                     <tr>
                         <td>{{ $translation->name }}</td>
+                        <td>{{ $translation->language }}</td>
                         <td>{!! $translation->status_label !!}</td>
                         <td>
                             <a href="{{ route('admin.record.word.translation.remove', [$word, $translation]) }}" class="btn btn-warning btn-sm">Remove </a>

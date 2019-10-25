@@ -108,13 +108,13 @@ class WordController extends Controller
         $translate = new Translate();
         $translate->name = request('name');
         $translate->word_id = $word->id;
-        $translate->language = "english";
+        $translate->language = request('language');
         $translate->save();
-        return redirect()->route('admin.record.word.show', $word)->withFlashSuccess("Translation Successfully Added");
+        return redirect(route('admin.record.word.show', $word) . "#translations")->withFlashSuccess("Translation Successfully Added");
     }
 
     public function removeTranslation(Word $word, Translate $translate){
         $translate->delete();
-        return redirect()->route('admin.record.word.show', $word)->withFlashSuccess("Translate Successfully Removed");
+        return redirect(route('admin.record.word.show', $word) . "#translations")->route('admin.record.word.show', $word)->withFlashSuccess("Translate Successfully Removed");
     }
 }
