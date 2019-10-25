@@ -47,13 +47,7 @@ trait WordAttribute
         }
         
     }
-
-    public function getAssignButtonAttribute(){
-        return '<a href="'.route('admin.record.word.assign_branch', $this).'" class="dropdown-item">Assign Branch</a>';
-    
-        // return '<button data-toggle="modal" data-target="#branchModal" class="dropdown-item btn-assign" data-id="'. $this->id .'">Assign Branch</button>';
-    }
-
+ 
     /**
      * @return string
      */

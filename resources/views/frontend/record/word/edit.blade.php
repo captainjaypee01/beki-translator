@@ -1,9 +1,9 @@
-@extends('backend.layouts.app')
+@extends('frontend.layouts.app')
 
-@section('title', 'Word Management' . ' | ' . 'Edit Word')
+@section('title', 'Word' . ' | ' . 'Edit Word')
 
 @section('content') 
-{{ html()->modelForm($word, 'PATCH', route('admin.record.word.update', $word))->class('form-horizontal')->open() }}
+{{ html()->modelForm($word, 'PATCH', route('frontend.record.word.update', $word))->class('form-horizontal')->open() }}
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -45,7 +45,7 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col">
-                    {{ form_cancel(route('admin.record.word.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('frontend.record.word.index'), __('buttons.general.cancel')) }}
                 </div><!--col-->
 
                 <div class="col text-right">

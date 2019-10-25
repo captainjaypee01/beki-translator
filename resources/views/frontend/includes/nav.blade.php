@@ -12,6 +12,8 @@
                 <li class="nav-item"><a href="{{route('frontend.user.dashboard')}}" class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}">@lang('navs.frontend.dashboard')</a></li>
             @endauth
 
+            <li class="nav-item"><a href="{{route('frontend.record.word.index')}}" class="nav-link {{ active_class(Active::checkRoute('frontend.record.word.index')) }}">Beki Words</a></li>
+
             @guest
                 <li class="nav-item"><a href="{{route('frontend.auth.login')}}" class="nav-link {{ active_class(Active::checkRoute('frontend.auth.login')) }}">@lang('navs.frontend.login')</a></li>
 

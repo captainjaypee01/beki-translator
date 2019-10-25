@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Record;
+namespace App\Http\Controllers\Frontend\Record;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Record\Translate;
-use App\Models\Record\Word;
-use Log;
+use App\Models\Record\Word; 
 
-class WordController extends Controller
+class WordListController extends Controller
 {
     /**
      * @return \Illuminate\View\View
@@ -24,7 +23,7 @@ class WordController extends Controller
 
         $words = $words->paginate(10)->setpath('');
         $words->appends($append); 
-        return view('backend.record.word.index',
+        return view('frontend.record.word.index',
             [ 
                 "search" => $keyword,
                 "words" => $words,
@@ -32,13 +31,13 @@ class WordController extends Controller
     }
 
     public function create(){ 
-        return view('backend.record.word.create',
+        return view('frontend.record.word.create',
             [  
             ]);
     }
 
     public function show(Word $word){
-        return view('backend.record.word.show',
+        return view('frontend.record.word.show',
             [ 
                 "word" => $word, 
                 "wordTranslations" => $word->translates->all()
@@ -46,7 +45,7 @@ class WordController extends Controller
     }
 
     public function edit(Word $word){
-        return view('backend.record.word.edit',
+        return view('frontend.record.word.edit',
             [ 
                 "word" => $word,  
             ]);
@@ -62,15 +61,14 @@ class WordController extends Controller
     }
     public function destroy(Word $word){
         $word->delete();
-        return redirect()->route('admin.record.word.index')->withFlashSuccess("Word Successfully Deleted");
+        return redirect()->route('frontend.record.word.index')->withFlashSuccess("Word Successfully Deleted");
     }
 
     public function save($form, $word){
         // Validate
         $data = request()->validate([
             'name' => 'required',  
-            'description' => 'required',
-            'translates' => 'required',
+            'description' => 'required', 
         ]);
         // Log::info(request());
         // dd(request());
@@ -80,26 +78,15 @@ class WordController extends Controller
         if(isset($form['description']))
             $word->description = $form['description'];
         
-        $word->user_id = auth()->user()->id;
         $word->save();
-        
-        if(isset($form['translates'])){
-            foreach($form['translates'] as $t){
-                $translate = new Translate();
-                $translate->user_id = auth()->user()->id;
-                $translate->name = $t;
-                $translate->word_id = $word->id;
-                $translate->language = "english";
-                $translate->save();
-            } 
-        }
-        return redirect()->route('admin.record.word.show', $word)->withFlashSuccess("Word Successfully Saved");
+         
+        return redirect(route('frontend.record.word.show', $word) . "#translations")->withFlashSuccess("Word Successfully Saved");
 
     }
     public function mark(Word $word, $status){
         $word->status = $status;
         $word->save();
-        return redirect()->route('admin.record.word.index')->withFlashSuccess("Word Status Saved");
+        return redirect()->route('frontend.record.word.index')->withFlashSuccess("Word Status Saved");
     }
     
     public function addTranslation(Word $word){
@@ -113,11 +100,11 @@ class WordController extends Controller
         $translate->word_id = $word->id;
         $translate->language = request('language');
         $translate->save();
-        return redirect(route('admin.record.word.show', $word) . "#translations")->withFlashSuccess("Translation Successfully Added");
+        return redirect(route('frontend.record.word.show', $word) . "#translations")->withFlashSuccess("Translation Successfully Added");
     }
 
     public function removeTranslation(Word $word, Translate $translate){
         $translate->delete();
-        return redirect(route('admin.record.word.show', $word) . "#translations")->withFlashSuccess("Translate Successfully Removed");
+        return redirect(route('frontend.record.word.show', $word) . "#translations")->withFlashSuccess("Translate Successfully Removed");
     }
 }
