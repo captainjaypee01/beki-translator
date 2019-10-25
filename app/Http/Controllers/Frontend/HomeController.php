@@ -32,12 +32,12 @@ class HomeController extends Controller
             $grouped = Translate::where('name', 'like' , '%' . request('q') . '%')->where('language', request('language'))->groupBy('word_id')->get();
             Log::info($grouped);
             if(count($grouped) > 1){
-                $wordIds = Translate::where('name', 'like' , '%' . request('q') . '%')->where('language', request('language'))->groupBy('word_id')->pluck('group_id');
+                $wordIds = Translate::where('name', 'like' , '%' . request('q') . '%')->where('language', request('language'))->groupBy('word_id')->pluck('word_id');
                 $words = Word::whereIn('id', $wordIds)->get();
             }
             else if(count($grouped) > 0){
                 $trans = Translate::where('name', 'like' , '%' . request('q') . '%')->where('language', request('language'))->first();
-                $words = Word::find($trans->word_id)->first();
+                $words = Word::find($trans->word_id);
             }
             else{
                 $words = null;
