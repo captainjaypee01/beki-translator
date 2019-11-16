@@ -70,6 +70,10 @@ class WordController extends Controller
         $data = request()->validate([
             'name' => 'required',  
             'description' => 'required',
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 9efc9b24e75621fd3252bda0c08ddc1480994333
         ]);
         // Log::info(request());
         // dd(request());
