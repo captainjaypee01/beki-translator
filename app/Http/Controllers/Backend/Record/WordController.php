@@ -70,7 +70,7 @@ class WordController extends Controller
         $data = request()->validate([
             'name' => 'required',  
             'description' => 'required',
-            'translates' => 'required',
+            
         ]);
         // Log::info(request());
         // dd(request());

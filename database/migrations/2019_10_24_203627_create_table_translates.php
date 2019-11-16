@@ -18,7 +18,7 @@ class CreateTableTranslates extends Migration
             $table->unsignedBigInteger('word_id')->nullable();
             $table->string('name')->nullable();
             $table->string('language')->nullable(); 
-            $table->tinyInteger('status')->defualt(1)->nullable();
+            $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

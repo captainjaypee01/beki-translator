@@ -22,6 +22,7 @@ class HomeController extends Controller
         // $translations = Translate::groupBy("word_id")->select('*', DB::raw('count(*) as total'))->get();
         // $translations = DB::table('translates')->groupBy("word_id")->first();
         // dd($translations);
+        
         return view('frontend.index');
     }
 

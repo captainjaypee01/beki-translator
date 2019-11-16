@@ -18,7 +18,7 @@ class CreateTableWords extends Migration
             $table->string('name')->nullable();
             $table->string('part_of_speech')->nullable();
             $table->text('description')->nullable();
-            $table->tinyInteger('status')->defualt(1)->nullable();
+            $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

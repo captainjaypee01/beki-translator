@@ -78,6 +78,8 @@ class WordListController extends Controller
         if(isset($form['description']))
             $word->description = $form['description'];
         
+        $word->user_id = auth()->user()->id;
+        $word->status = 0;
         $word->save();
          
         return redirect(route('frontend.record.word.show', $word) . "#translations")->withFlashSuccess("Word Successfully Saved");

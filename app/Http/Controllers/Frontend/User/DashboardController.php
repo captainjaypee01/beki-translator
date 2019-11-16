@@ -14,6 +14,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('frontend.user.dashboard');
+        $words = auth()->user()->words()->get();//Word::where('status', 1)
+        return view('frontend.user.dashboard',[
+            'words' => $words,
+        ]);
     }
 }
