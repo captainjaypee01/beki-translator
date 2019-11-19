@@ -52,6 +52,14 @@ class WordController extends Controller
             ]);
     }
 
+    public function editTranslate(Word $word, Translate $translate){
+        return view('backend.record.word.translate.edit',
+            [ 
+                "word" => $word, 
+                "translate" => $translate,   
+            ]);
+    }
+
     public function store(Request $request){
         $word = new Word();
         return $this->save($request, $word);
@@ -70,10 +78,7 @@ class WordController extends Controller
         $data = request()->validate([
             'name' => 'required',  
             'description' => 'required',
-<<<<<<< HEAD
-=======
             
->>>>>>> 9efc9b24e75621fd3252bda0c08ddc1480994333
         ]);
         // Log::info(request());
         // dd(request());
@@ -109,11 +114,27 @@ class WordController extends Controller
         // Validate
         $data = request()->validate([
             'name' => 'required',  
+            'root_word' => 'required', 
         ]);
         $translate = new Translate();
         $translate->user_id = auth()->user()->id;
         $translate->name = request('name');
+        $translate->root_word = request('root_word');
         $translate->word_id = $word->id;
+        $translate->language = request('language');
+        $translate->save();
+        return redirect(route('admin.record.word.show', $word) . "#translations")->withFlashSuccess("Translation Successfully Added");
+    }
+
+    public function updateTranslation(Word $word, Translate $translate){
+        // Validate
+        $data = request()->validate([
+            'name' => 'required',  
+            'root_word' => 'required',  
+        ]);
+         
+        $translate->name = request('name');
+        $translate->root_word = request('root_word'); 
         $translate->language = request('language');
         $translate->save();
         return redirect(route('admin.record.word.show', $word) . "#translations")->withFlashSuccess("Translation Successfully Added");

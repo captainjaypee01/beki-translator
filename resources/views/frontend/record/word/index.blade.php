@@ -45,11 +45,8 @@
                                         <td>{!! $word->status_label !!}</td>
                                         <td>
                                             <a href="{{ route('frontend.record.word.show', $word) }}" data-toggle="tooltip" data-placement="top" title="View" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                            <a href="{{ route('frontend.record.word.edit', $word) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-<<<<<<< HEAD
-                                            
-=======
                                             @if($word->user_id == auth()->user()->id)
+                                            <a href="{{ route('frontend.record.word.edit', $word) }}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                             <a href="{{route('frontend.record.word.destroy', $word)}}"
                                                 data-method="delete"
                                                 data-trans-button-cancel="Cancel"
@@ -57,7 +54,6 @@
                                                 data-trans-title="Are you sure?"
                                                 class="btn btn-danger">Delete</a> 
                                             @endif
->>>>>>> 9efc9b24e75621fd3252bda0c08ddc1480994333
                                         </td>
                                     </tr>
                                 @endforeach

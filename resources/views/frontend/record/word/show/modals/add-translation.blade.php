@@ -25,6 +25,18 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
+                                {{ html()->label("Root word")->for('root_word') }}
+        
+                                {{ html()->text('root_word')
+                                    ->class('form-control')
+                                    ->placeholder('Root word') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Language</label>
                                 <select name="language" id="language" class="form-control">
                                     <option selected readonly>Select language</option>
                                     <option value="english">English</option>

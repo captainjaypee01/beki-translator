@@ -15,6 +15,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>  
+                            <th>Root Word</th>
                             <th>Language</th>
                             <th>Date Added</th>
                             <th></th>
@@ -24,10 +25,13 @@
                         @foreach($wordTranslations as $translation)
                         <tr>
                             <td>{{ $translation->name }}</td>
+                            <td>{{ $translation->root_word }}</td>
                             <td>{{ $translation->language }}</td>
                             <td>{!! timezone()->convertToLocal($translation->created_at) !!}</td>
                             <td> 
                                 @if(auth()->user()->id == $translation->user_id)
+                                
+                                <a class="btn btn-info btn-sm" href="{{ route('frontend.record.word.translate.edit', [$word, $translation]) }}">Edit </a>
                                 <a href="{{ route('frontend.record.word.translation.remove', [$word, $translation]) }}" class="btn btn-warning btn-sm">Remove </a>
                                 @endif
                             </td>

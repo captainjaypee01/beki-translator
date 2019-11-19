@@ -19,3 +19,8 @@ Breadcrumbs::for('admin.record.word.show', function ($trail, $id) {
     $trail->parent('admin.record.word.index');
     $trail->push(__('Edit Word'), route('admin.record.word.show', $id));
 });
+
+Breadcrumbs::for('admin.record.word.translate.edit', function ($trail, $id) {
+    $trail->parent('admin.record.word.show', $id);
+    $trail->push(__('Edit Translate'), route('admin.record.word.show', $id));
+});

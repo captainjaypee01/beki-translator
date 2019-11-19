@@ -21,10 +21,12 @@ Route::group([
         Route::group(['prefix' => '{word}'], function () {
             Route::get('/', [WordController::class, 'show'])->name('show');
             Route::get('/edit', [WordController::class, 'edit'])->name('edit');
+            Route::get('/translate/{translate}', [WordController::class, 'editTranslate'])->name('translate.edit');
             Route::get('mark/{status}', [WordController::class, 'mark'])->name('mark')->where(['status' => '[0,1]']); 
             Route::get('/translation/remove/{translate}', [WordController::class, 'removeTranslation'])->name('translation.remove');
             Route::post('/translation/add', [WordController::class, 'addTranslation'])->name('translation.add');
             Route::patch('/', [WordController::class, 'update'])->name('update');
+            Route::patch('/translate/{translate}', [WordController::class, 'updateTranslation'])->name('translate.update');
             Route::delete('/', [WordController::class, 'destroy'])->name('destroy');
         });
     });

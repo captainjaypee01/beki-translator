@@ -2,9 +2,9 @@
 
     <div class="row mb-4">
             <div class="col">
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-translation-modal">
-                        Add Translation
-                    </button>   
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-translation-modal">
+                    Add Translation
+                </button>   
             </div>
             @include('backend.record.word.show.modals.add-translation')
         </div>
@@ -15,6 +15,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>  
+                        <th>Root Word</th>
                         <th>Language</th>
                         <th>Status</th>
                         <th></th>
@@ -24,9 +25,11 @@
                     @foreach($wordTranslations as $translation)
                     <tr>
                         <td>{{ $translation->name }}</td>
+                        <td>{{ $translation->root_word }}</td>
                         <td>{{ $translation->language }}</td>
                         <td>{!! $translation->status_label !!}</td>
                         <td>
+                            <a class="btn btn-info btn-sm" href="{{ route('admin.record.word.translate.edit', [$word, $translation]) }}">Edit </a>
                             <a href="{{ route('admin.record.word.translation.remove', [$word, $translation]) }}" class="btn btn-warning btn-sm">Remove </a>
                         </td>
                     </tr>
