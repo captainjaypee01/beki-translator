@@ -90,7 +90,7 @@ class HomeController extends Controller
                 }
                 $sentence = str_replace(strtolower($t->name), ' ', strtolower($sentence));
                 // echo $sentence;
-                echo 1;
+                // echo 1;
             }
         }
         // echo $sentence;
@@ -135,7 +135,7 @@ class HomeController extends Controller
         // exit(); 
         $thetextstring = preg_replace("#[\s]+#", " ", $sentence);
         $listedWords = explode(" ", $thetextstring);
-        $output = null;
+        
         // echo $thetextstring;
         // print_r($listedWords);
         // exit();
@@ -165,7 +165,10 @@ class HomeController extends Controller
                     }
                 } 
             }
+
         }
+        // print_r($output);
+        // exit();
         // $result = "";
         if($output){
             if(count($output) > 0){
