@@ -77,43 +77,50 @@
             console.log(val);
             if(val != ""){
                 $.ajax({
-                    url: '{{ route("frontend.translate") }}' + '?q=' + val + '&language=' + radioValue,
+                    url: '{{ route("frontend.translate.words") }}' + '?q=' + val + '&language=' + radioValue,
                     type : "GET",
                     dataType : 'json',
                     success : function(response){ 
-                        if(response.words){
-                            if(response.words.length > 1){
-                                $("#to").hide();
-                                html = '<div class="list-group">';
-                                var words = response.words;
-                                for (let index = 0; index < response.words.length; index++) {
-                                    
-                                    html += '<div class="list-group-item list-group-item-action " data-id="'+ words[index].id +'" data-name="'+ words[index].name +'">'
-                                        +       '<div class="d-flex w-100 justify-content-between">'
-                                        +           '<h5 class="mb-1">'+ words[index].name +'</h5>'
-                                        +       '</div>'
-                                        +       '<details class="text-left mb-2">'
-                                        +           '<summary>Description</summary>'
-                                        +           '<p><small>'+ words[index].description +'</small></p>'
-                                        +       '</details>'
-                                        +       '<a href="#" class="btn btn-outline-info btn-sm list-word" data-id="'+ words[index].id +'" data-name="'+ words[index].name +'">Select</a>'
-                                        + '</div>';
-                                        
-                                }
-                                words += '</div>';
-                                $("#section-word-list").html(html);
-                                $("#section-word-list").show();
-                            }
-                            
-                            else{
-                                $("#section-word-list").hide();
-                                $("#to").show();
-                                $("#to").val(response.words.name);
-                            }
-                        }
-                        else{
+                        if(response.output){
+                            $("#section-word-list").hide();
+                            $("#to").show();
+                            $("#to").val(response.result);
+                        }else{
                             $("#to").val("No available beki words");
                         }
+                        // if(response.words){
+                        //     if(response.words.length > 1){
+                        //         $("#to").hide();
+                        //         html = '<div class="list-group">';
+                        //         var words = response.words;
+                        //         for (let index = 0; index < response.words.length; index++) {
+                                    
+                        //             html += '<div class="list-group-item list-group-item-action " data-id="'+ words[index].id +'" data-name="'+ words[index].name +'">'
+                        //                 +       '<div class="d-flex w-100 justify-content-between">'
+                        //                 +           '<h5 class="mb-1">'+ words[index].name +'</h5>'
+                        //                 +       '</div>'
+                        //                 +       '<details class="text-left mb-2">'
+                        //                 +           '<summary>Description</summary>'
+                        //                 +           '<p><small>'+ words[index].description +'</small></p>'
+                        //                 +       '</details>'
+                        //                 +       '<a href="#" class="btn btn-outline-info btn-sm list-word" data-id="'+ words[index].id +'" data-name="'+ words[index].name +'">Select</a>'
+                        //                 + '</div>';
+                                        
+                        //         }
+                        //         words += '</div>';
+                        //         $("#section-word-list").html(html);
+                        //         $("#section-word-list").show();
+                        //     }
+                            
+                        //     else{
+                        //         $("#section-word-list").hide();
+                        //         $("#to").show();
+                        //         $("#to").val(response.words.name);
+                        //     }
+                        // }
+                        // else{
+                        //     $("#to").val("No available beki words");
+                        // }
                         console.log(response);
                     },
                     error : function(response){

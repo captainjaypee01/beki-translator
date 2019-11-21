@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\User\DashboardController;
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('contact', [ContactController::class, 'index'])->name('contact');
 Route::get('translate', [HomeController::class, 'translate'])->name('translate');
+Route::get('translateWords', [HomeController::class, 'translateWithSpace'])->name('translate.words');
 
 Route::post('contact/send', [ContactController::class, 'send'])->name('contact.send');
 

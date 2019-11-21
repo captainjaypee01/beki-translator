@@ -39,18 +39,7 @@
                     </div>
                 </div> 
             </div>
-<<<<<<< HEAD
              
-=======
-            
-            <div class="row">
-                <div class="col">
-                    {{-- <button type="button" class="btn btn-outline-info" id="btn-add-word">Add Related Tagalog/English Word</button> --}}
-                </div>
-            </div>
-            <div class="row mt-4" id="section-translates"> 
-            </div>
->>>>>>> 9efc9b24e75621fd3252bda0c08ddc1480994333
 
         </div><!--card-body-->
 

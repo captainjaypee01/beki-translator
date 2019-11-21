@@ -60,4 +60,74 @@ class HomeController extends Controller
         }
         return response()->json(['data' => request('q'), 'words' => $words]);
     }
+
+    public function translateWithSpace(){
+        $sentence = request('q');
+        $translates = Translate::where(function($query) use ($sentence){
+                                $query->where('name', 'like', $sentence)
+                                    ->orWhere('root_word', 'like', $sentence);
+                            })->where('language', request('language'))->get();
+        
+        if(count($translates) > 0){
+            $grouped = Translate::where(function($query) use ($sentence){
+                                $query->where('name', 'like', $sentence)
+                                    ->orWhere('root_word', 'like', $sentence);
+                            })->where('language', request('language'))->groupBy('word_id')->get();
+            if(count($grouped) > 0){
+                $trans = Translate::where(function($query) use ($sentence){
+                                    $query->where('name', 'like', $sentence)
+                                        ->orWhere('root_word', 'like', $sentence);
+                                })->where('language', request('language'))->first();
+                $output[] = Word::find($trans->word_id);
+                $result = "";
+                
+                if(count($output) > 0){
+                    foreach($output as $out){
+                        $result .= $out->name ." ";
+                    }
+                }
+                return response()->json(['data' => request('q'), 'output' => $output, 'result' => $result]);
+            }
+            else{
+                $output[] = null;
+            }
+        }
+
+        $thetextstring = preg_replace("#[\s]+#", " ", $sentence);
+        $listedWords = explode(" ", $thetextstring);
+        $output = null;
+        foreach($listedWords as $word){
+            $likeData = '%' . $word . '%';
+            $translates = Translate::where(function($query) use ($likeData){
+                                    $query->where('name', 'like', $likeData)
+                                        ->orWhere('root_word', 'like', $likeData);
+                                })->where('language', request('language'))->get();
+            $words = null;
+            if(count($translates) > 0){
+                $grouped = Translate::where(function($query) use ($likeData){
+                                    $query->where('name', 'like', $likeData)
+                                        ->orWhere('root_word', 'like', $likeData);
+                                })->where('language', request('language'))->groupBy('word_id')->get();
+                Log::info($grouped);
+                if(count($grouped) > 0){
+                    $trans = Translate::where(function($query) use ($likeData){
+                                        $query->where('name', 'like', $likeData)
+                                            ->orWhere('root_word', 'like', $likeData);
+                                    })->where('language', request('language'))->first();
+                    $output[] = Word::find($trans->word_id);
+                }
+                else{
+                    $output[] = null;
+                }
+            } 
+        }
+        $result = "";
+        if(count($output) > 0){
+            foreach($output as $out){
+                $result .= $out->name ." ";
+            }
+        }
+        return response()->json(['data' => request('q'), 'output' => $output, 'result' => $result]);
+        dd($result);
+    }
 }
