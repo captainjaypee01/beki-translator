@@ -139,6 +139,7 @@ class HomeController extends Controller
         // echo $thetextstring;
         // print_r($listedWords);
         // exit();
+        $singleBool = false;
         foreach($listedWords as $word){
             if($word != ""){
                 $likeData = '%' . $word . '%';
@@ -159,6 +160,7 @@ class HomeController extends Controller
                                                 ->orWhere('root_word', 'like', $likeData);
                                         })->where('language', request('language'))->first();
                         $output[] = Word::find($trans->word_id);
+                        $singleBool = true;
                     }
                     else{
                         $output[] = null;
@@ -170,13 +172,14 @@ class HomeController extends Controller
         // print_r($output);
         // exit();
         // $result = "";
-        if($output){
+
+        if($output && $singleBool){
             if(count($output) > 0){
                 foreach($output as $out){
                     $result .= $out->name ." ";
                 }
             }
-        }
+        } 
         return response()->json(['data' => request('q'), 'output' => $output, 'result' => $result]);
         dd($result);
     }
