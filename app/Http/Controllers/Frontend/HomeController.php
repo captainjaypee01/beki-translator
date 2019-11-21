@@ -80,11 +80,23 @@ class HomeController extends Controller
                                 })->where('language', request('language'))->groupBy('word_id')->get();
                 Log::info($grouped);
                 if(count($grouped) > 0){
+                    
                     $trans = Translate::where(function($query) use ($likeData){
-                                        $query->where('name', 'like', $likeData)
-                                            ->orWhere('root_word', 'like', $likeData);
-                                    })->where('language', request('language'))->first();
-                    $output[] = Word::find($trans->word_id);
+                        $query->where('name', 'like', $likeData)
+                            ->orWhere('root_word', 'like', $likeData);
+                    })->where('language', request('language'))->first();
+                    $exist = false;
+                    $existName = new Collection();
+                    foreach($grouped as $grp){
+                        if(strtolower($grp->name) == strtolower($word)){
+                            $exist = true;
+                            $existName = $grp;
+                        }
+                    }
+                    if($exist)
+                        $output[] = Word::find($existName->word_id);
+                    else
+                        $output[] = Word::find($trans->word_id);
                 }
                 else{
                     $output[] = null;
