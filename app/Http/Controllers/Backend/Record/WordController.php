@@ -69,6 +69,9 @@ class WordController extends Controller
         return $this->save($request, $word);
     }
     public function destroy(Word $word){
+        $translateIds = Translate::where('word_id', $word->id)->pluck('id');
+        // dd($translateIds);
+        $word->translates()->whereIn('id', $translateIds)->delete();
         $word->delete();
         return redirect()->route('admin.record.word.index')->withFlashSuccess("Word Successfully Deleted");
     }
