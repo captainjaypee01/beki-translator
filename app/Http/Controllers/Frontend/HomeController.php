@@ -62,124 +62,41 @@ class HomeController extends Controller
     }
 
     public function translateWithSpace(){
-        $sentence = strtolower(request('q'));
-        $translates = Translate::where(function($query) use ($sentence){
-                                $query->where('name', 'like', $sentence)
-                                    ->orWhere('root_word', 'like', $sentence);
-                            })->where('language', request('language'))->get();
-        
-        $output = null;
-        $result = "";
-        $sentenceWord = "";
-        $grouped = new Collection();
-        $allTranslates = Translate::where('status', 1)->orderByRaw('CHAR_LENGTH(name)', 'DESC')->get(); 
-        // echo $sentence;
-        // echo '<br>';
-        foreach($allTranslates as $t){
-            if(strpos($sentence, strtolower($t->name)) !== false){
-                $output[] = Word::find($t->word_id);
-                $sentenceWord = strtolower($t->name);
-                $result = "";
-
-                if($output){
-                    if(count($output) > 0){
-                        foreach($output as $out){
-                            $result .= $out->name ." ";
-                        }
-                    }
-                }
-                $sentence = str_replace(strtolower($t->name), ' ', strtolower($sentence));
-                // echo $sentence;
-                // echo 1;
-            }
-        }
-        // echo $sentence;
-        // exit();
-        // if(count($translates) > 0){
-        //     $grouped = Translate::where(function($query) use ($sentence){
-        //                         $query->where('name', 'like', $sentence)
-        //                             ->orWhere('root_word', 'like', $sentence);
-        //                     })->where('language', request('language'))->groupBy('word_id')->get();
-        //     if(count($grouped) > 0){
-        //         $trans = Translate::where(function($query) use ($sentence){
-        //                             $query->where('name', 'like', $sentence)
-        //                                 ->orWhere('root_word', 'like', $sentence);
-        //                         })->where('language', request('language'))->first();
-        //         $output[] = Word::find($trans->word_id);
-        //         $sentenceWord = strtolower($trans->name);
-        //         $result = "";
-
-        //         if($output){
-        //             if(count($output) > 0){
-        //                 foreach($output as $out){
-        //                     $result .= $out->name ." ";
-        //                 }
-        //             }
-        //         }
-        //         echo "te";
-        //         $sentence = str_replace($sentenceWord, '', strtolower($sentence));
-        //         echo $sentence;
-        //         // return response()->json(['data' => request('q'), 'output' => $output, 'result' => $result]);
-        //     }
-        //     else{
-        //         $output[] = null;
-        //     }
-        // }
-        // if(count($grouped) > 0){
-        //     $sentence = str_replace($sentenceWord, '', strtolower($sentence));
-        //     echo $sentence;
-        // }
-        // echo $sentence;
-        // exit();
-        // echo $sentence;
-        // exit(); 
+        $sentence = request('q');
         $thetextstring = preg_replace("#[\s]+#", " ", $sentence);
         $listedWords = explode(" ", $thetextstring);
-        
-        // echo $thetextstring;
-        // print_r($listedWords);
-        // exit();
-        $singleBool = false;
+        $output = null;
         foreach($listedWords as $word){
-            if($word != ""){
-                $likeData = '%' . $word . '%';
-                $translates = Translate::where(function($query) use ($likeData){
+            $likeData = '%' . $word . '%';
+            $translates = Translate::where(function($query) use ($likeData){
+                                    $query->where('name', 'like', $likeData)
+                                        ->orWhere('root_word', 'like', $likeData);
+                                })->where('language', request('language'))->get();
+            $words = null;
+            if(count($translates) > 0){
+                $grouped = Translate::where(function($query) use ($likeData){
+                                    $query->where('name', 'like', $likeData)
+                                        ->orWhere('root_word', 'like', $likeData);
+                                })->where('language', request('language'))->groupBy('word_id')->get();
+                Log::info($grouped);
+                if(count($grouped) > 0){
+                    $trans = Translate::where(function($query) use ($likeData){
                                         $query->where('name', 'like', $likeData)
                                             ->orWhere('root_word', 'like', $likeData);
-                                    })->where('language', request('language'))->get();
-                $words = null;
-                if(count($translates) > 0){
-                    $grouped = Translate::where(function($query) use ($likeData){
-                                        $query->where('name', 'like', $likeData)
-                                            ->orWhere('root_word', 'like', $likeData);
-                                    })->where('language', request('language'))->groupBy('word_id')->get();
-                    Log::info($grouped);
-                    if(count($grouped) > 0){
-                        $trans = Translate::where(function($query) use ($likeData){
-                                            $query->where('name', 'like', $likeData)
-                                                ->orWhere('root_word', 'like', $likeData);
-                                        })->where('language', request('language'))->first();
-                        $output[] = Word::find($trans->word_id);
-                        $singleBool = true;
-                    }
-                    else{
-                        $output[] = null;
-                    }
-                } 
-            }
-
-        }
-        // print_r($output);
-        // exit();
-        // $result = "";
-
-        if($output && $singleBool){
-            if(count($output) > 0){
-                foreach($output as $out){
-                    $result .= $out->name ." ";
+                                    })->where('language', request('language'))->first();
+                    $output[] = Word::find($trans->word_id);
                 }
+                else{
+                    $output[] = null;
+                }
+            } 
+        }
+        $result = "";
+        if(count($output) > 0){
+            foreach($output as $out){
+                $result .= $out->name ." ";
             }
-        } 
+        }
         return response()->json(['data' => request('q'), 'output' => $output, 'result' => $result]);
         dd($result);
     }
